@@ -39,8 +39,12 @@ async function loadIdeas() {
     const q = new URLSearchParams();
     if (state.filter) q.set('filter', state.filter);
     const data = await api(`/api/ideas?${q}`);
-    state.ideas = data.ideas;
-    renderList();
+    const sig = JSON.stringify(data.ideas);
+    if (sig !== state._ideasSig) {
+      state._ideasSig = sig;
+      state.ideas = data.ideas;
+      renderList();
+    }
   } catch (e) {
     if (e.status === 401) window.location.href = '/login';
   }
