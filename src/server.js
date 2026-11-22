@@ -8,6 +8,7 @@ const crypto = require('crypto');
 const Fastify = require('fastify');
 const fastifyStatic = require('@fastify/static');
 const cookie = require('@fastify/cookie');
+const formbody = require('@fastify/formbody');
 
 const config = require('./config');
 const { isAuthed, tokenFor, TOKEN, writeFirstLoginFile, bootBanner, sha256 } = require('./auth');
@@ -18,6 +19,7 @@ const { approveIdea } = require('./approver');
 
 const app = Fastify({ logger: { level: 'info' }, bodyLimit: 512 * 1024 });
 app.register(cookie);
+app.register(formbody); // browser login form posts application/x-www-form-urlencoded
 
 // ---------- static assets (open: css/js only, no secrets) ----------
 app.register(fastifyStatic, { root: path.join(__dirname, '..', 'public'), prefix: '/public/' });
