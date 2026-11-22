@@ -1,0 +1,34 @@
+{
+  "_comment": "Declined-verdict names + saturated-category regexes. Matched via norm() (lowercase, non-alnum → space). Sources: novel-ideas 2026-10-04 (DDNS, Tier-2 saturated), third-wave 2026-11-07 (Audio8, AutoSwarm), colab research 2026-11-14, game-servers census 2026-11-15, adjacent-sweep verdicts 2026-11-09.",
+  "names": [
+    "docker socket proxy", "watchtower", "dozzle", "yacht", "dockge",
+    "keepassxc", "logseq",
+    "zigbee2mqtt", "zwave js ui", "esphome", "scrypted", "octoprint",
+    "ddns updater", "ddns upddder",
+    "sonarr", "radarr", "prowlarr", "lidarr", "readarr", "bazarr", "lazylibrarian", "kapowarr", "mylar3", "maintainerr",
+    "romm", "tvheadend",
+    "pairdrop", "webtop",
+    "pterodactyl", "pelican", "amp", "cubecoders",
+    "netalertx", "mailcow", "mailu",
+    "palworld", "valheim direct", "rust game", "ark survival", "7 days to die", "v rising", "enshrouded", "sons of the forest",
+    "cs2", "counter strike 2", "garry s mod", "team fortress 2", "left 4 dead 2", "satisfactory", "factorio direct",
+    "teeworlds", "soldat", "luanti", "minetest server",
+    "audio8", "autoswarm", "auto swarm", "colab cli", "colab mcp", "colab exec",
+    "kaggle notebook runner", "kaggle gpu runner"
+  ],
+  "regexes": [
+    "wiki\\b",
+    "\\buptime\\b.*\\b(status|monitor|kuma)\\b",
+    "\\b(status|cachet|kener|statping|gatus|oneuptime|tianji|uptimekit)\\b.*\\b(page|monitor)\\b",
+    "\\b(db|database)\\b.*\\b(client|admin|web ui|gate)\\b",
+    "\\b(url )?(shorten|shortener)\\b",
+    "\\bpastebin\\b", "\\bsecret (sharing|push)\\b", "\\bone[- ]time (secret|password)\\b",
+    "\\bscreenshot\\b.*\\b(api|service|as a service)\\b",
+    "\\bcomment (system|widget|section)\\b",
+    "\\b(web )?hook (inspector|catcher|bin|relay|debug)\\b",
+    "\\bgpu runner\\b.*\\bkaggle\\b",
+    "\\bkaggle (notebook|gpu) runner\\b",
+    "\\brust (game|server)\\b", "\\bark survival\\b", "\\bpalworld server\\b",
+    "\\bcolab\\b.*\\b(cli|mcp|exec)\\b"
+  ]
+}

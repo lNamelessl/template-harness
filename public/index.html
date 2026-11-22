@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Template Idea Harness</title>
+<link rel="stylesheet" href="/public/style.css">
+</head>
+<body>
+<div id="gate-banner"></div>
+<header>
+  <div class="ws"><span class="logo">&#9678;</span> harness <span class="ws-sel" id="ws-sel">workspace: template-ideas</span></div>
+  <div class="hdr-right">
+    <span class="chip" id="hdr-key">checking key…</span>
+    <span class="chip" id="hdr-watcher">watcher: booting</span>
+    <button class="icon-btn" id="btn-settings" title="Settings">&#9881;&#65039;</button>
+  </div>
+</header>
+<main id="layout">
+  <aside id="sidebar">
+    <div class="composer"><input id="filter" placeholder="Filter ideas&#8230;" autocomplete="off"></div>
+    <div id="idea-list"><div class="list-empty">loading ideas&#8230;</div></div>
+    <div class="list-count" id="list-count"></div>
+  </aside>
+  <section id="center">
+    <div id="center-main" style="display:flex;flex-direction:column;height:100%">
+      <div class="empty-center" id="empty-center">
+        <div class="big">&#9678;</div>
+        <div><b>Template Idea Harness</b></div>
+        <div style="max-width:420px">The idea watcher sweeps discovery sources hourly. New high-potential ideas land here, DeepSeek researches each one with deep search, and you approve the template builds.</div>
+        <div id="empty-hint" style="font-size:12px;color:var(--fg-faint)"></div>
+      </div>
+      <div id="idea-view" style="display:none;flex-direction:column;flex:1;min-height:0">
+        <div id="idea-header">
+          <h2><span id="idea-name"></span><span class="chip-status" id="idea-status"></span></h2>
+          <div class="hdr-chips" id="idea-chips"></div>
+        </div>
+        <div id="center-scroll">
+          <div id="thinking-panel">
+            <div class="thinking-head" id="thinking-toggle">
+              <span class="tw">&#9654;</span><span class="lbl">Thinking &amp; trajectory</span>
+              <span class="meta" id="thinking-meta">collapsed</span>
+            </div>
+            <div class="thinking-body">
+              <div class="phase-line" id="phase-line"></div>
+              <div class="reasoning" id="reasoning">(no trajectory yet — run research)</div>
+              <ul class="tool-list" id="tool-list"></ul>
+              <div class="cite-cards" id="cite-cards"></div>
+            </div>
+          </div>
+          <div id="report"></div>
+        </div>
+        <div id="action-bar">
+          <button class="act primary" id="act-approve">Approve build</button>
+          <button class="act danger" id="act-dismiss">Dismiss</button>
+          <button class="act" id="act-research">Re-research</button>
+          <button class="act" id="act-rename">Rename &#9998;</button>
+          <div class="autobuild-stub"><span>Auto-build</span><span class="switch"></span><span class="tag">v1.1</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <aside id="rightbar">
+    <div class="panel-title">workspace files</div>
+    <div id="artifacts"><div class="rt-note">Research and approve an idea to generate artifacts (research.md, implementation-prompt.md).</div></div>
+    <div class="panel-title">dispatch log</div>
+    <div id="dispatch-log">(nothing dispatched yet)</div>
+    <div class="rt-note">Artifacts live on the /data volume; copy &amp; download served per-idea.</div>
+  </aside>
+</main>
+
+<div class="modal hidden" id="modal-settings">
+  <div class="box">
+    <h3>&#9881;&#65039; Settings</h3>
+    <div id="settings-rows"></div>
+    <div class="set-note">Schedule values are view-only here — change them via Railway variables (FAST_INTERVAL_MIN, FULL_RUN_HOUR, VELOCITY_MIN_DELTA, RESEARCH_CONCURRENCY).</div>
+    <button class="mini" id="btn-rescan" style="width:100%">Rescan marketplace now (monthly coverage refresh)</button>
+    <button class="modal-close" id="settings-close">Close</button>
+  </div>
+</div>
+<div id="toast"></div>
+<script src="/public/app.js"></script>
+</body>
+</html>
