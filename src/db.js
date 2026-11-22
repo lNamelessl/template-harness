@@ -98,7 +98,7 @@ function upsertIdea(entry, { velocityDelta = null } = {}) {
 // ---------- digests ----------
 const digestStmts = {
   insert: db.prepare('INSERT OR IGNORE INTO digests (file, stamp, mode, high, velocity, ledger, created_at) VALUES (?, ?, ?, ?, ?, ?, ?)'),
-  all: db.prepare('SELECT * FROM digests ORDER BY stamp DESC LIMIT 60'),
+  list: db.prepare('SELECT * FROM digests ORDER BY stamp DESC LIMIT 60'),
   has: db.prepare('SELECT 1 FROM digests WHERE file = ?'),
 };
 

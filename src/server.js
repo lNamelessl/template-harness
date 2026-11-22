@@ -278,7 +278,7 @@ app.get('/api/worker', async () => {
     loopState: watchRunner.state(),
     boot: watchRunner.boot(),
     next_full_at: `${String(config.fullRunHour).padStart(2, '0')}:00 UTC (if not already run today)`,
-    digests: digestStmts.all(),
+    digests: digestStmts.list.all(),
   };
 });
 

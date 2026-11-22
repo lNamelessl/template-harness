@@ -422,10 +422,22 @@ async function researchIdea(ideaId) {
   if (!config.deepseekKey) throw new NotConfiguredError();
   if (active >= config.researchConcurrency) throw new BusyError(active);
   active++;
+  let entered = false;
   try {
     await runResearch(ideaId);
+    entered = true;
   } finally {
     active--;
+    if (!entered) {
+      // runResearch died outside its own catch (e.g. DB write storm) — never
+      // leave the idea stuck in RESEARCHING; mark failed so it can be retried.
+      try {
+        const cur = ideaStmts.byId.get(ideaId);
+        if (cur && cur.status === 'RESEARCHING') {
+          ideaStmts.saveFailure.run('RESEARCH_FAILED', 'Research aborted by an internal error — retry.', null, now(), ideaId);
+        }
+      } catch (e) { /* even this may fail on a DB storm; boot reconciliation re-covers */ }
+    }
   }
 }
 
@@ -494,7 +506,11 @@ async function runResearch(ideaId) {
   } catch (err) {
     const typed = err instanceof NotConfiguredError || err instanceof BusyError || err instanceof RiskError || err instanceof UpstreamError;
     const errText = String(err.message || err).slice(0, 500);
-    ideaStmts.saveFailure.run('RESEARCH_FAILED', errText, null, now(), ideaId);
+    try {
+      ideaStmts.saveFailure.run('RESEARCH_FAILED', errText, null, now(), ideaId);
+    } catch (dbErr) {
+      console.error(`[research] idea ${ideaId} status write failed (will be re-covered at boot): ${dbErr.message}`);
+    }
     emit(ideaId, 'failed', { error: errText, code: typed ? err.code : 'internal_error' });
     pushTelegram(`⚠️ research FAILED — ${idea ? idea.name : ideaId}\n${errText.slice(0, 200)}`).catch(() => {});
     if (!typed) throw err;
