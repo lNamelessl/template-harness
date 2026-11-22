@@ -187,6 +187,15 @@ async function loop() {
 }
 
 function start() {
+  // boot reconciliation: a redeploy mid-research leaves RESEARCHING rows stuck —
+  // re-queue them (the drain + auto-research resumes them).
+  try {
+    const stuck = require('./db').db.prepare("SELECT id FROM ideas WHERE status = 'RESEARCHING'").all();
+    for (const r of stuck) {
+      ideaStmts.setStatus.run('NEW', now(), r.id);
+      console.log(`[boot] reconciled stuck RESEARCHING idea ${r.id} -> NEW`);
+    }
+  } catch (e) { /* non-fatal */ }
   loop().catch((e) => { console.error('[watch] fatal loop error', e); });
   console.log(`[watch] loop started: fast every ${config.fastIntervalMin}min, full daily ${config.fullRunHour}:00 UTC, data ${DATA}`);
 }

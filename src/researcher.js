@@ -516,7 +516,9 @@ function reportToMarkdown(idea, report, citations, usage, cost) {
   ]) {
     if (report[k] === undefined) continue;
     L.push(`## ${label}`);
-    L.push(k === 'rating' ? `${'★'.repeat(Number(report.rating) || 0)} (${report.rating}/5)` : String(report[k]));
+    if (k === 'rating') L.push(`${'★'.repeat(Number(report.rating) || 0)} (${report.rating}/5)`);
+    else if (report[k] !== null && typeof report[k] === 'object') L.push('```json\n' + JSON.stringify(report[k], null, 2) + '\n```');
+    else L.push(String(report[k]));
     L.push('');
   }
   if (citations.length) {

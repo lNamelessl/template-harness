@@ -6,7 +6,9 @@ const state = { ideas: [], selected: null, filter: '', es: null, poll: null, rea
 const esc = (s) => String(s ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 // render a text field: escape, then bold + inline links (http(s) only)
 function rich(s) {
-  let h = esc(s);
+  let v = s;
+  if (v !== null && typeof v === 'object') v = JSON.stringify(v, null, 1); // model may return arrays/objects
+  let h = esc(v);
   h = h.replace(/\*\*([^*]+)\*\*/g, '<b>$1</b>');
   h = h.replace(/(https?:\/\/[^\s<)"']+)/g, '<a href="$1" target="_blank" rel="noopener noreferrer">$1</a>');
   return h;
