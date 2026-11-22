@@ -13,7 +13,9 @@ function rich(s) {
 }
 
 async function api(path, opts = {}) {
-  const res = await fetch(path, { headers: { 'Content-Type': 'application/json' }, ...opts });
+  const init = { ...opts };
+  if (init.body && !init.headers) init.headers = { 'Content-Type': 'application/json' };
+  const res = await fetch(path, init);
   const body = await res.json().catch(() => ({}));
   if (!res.ok) {
     const err = new Error(body.message || res.statusText);
